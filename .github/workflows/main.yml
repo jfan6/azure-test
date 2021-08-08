@@ -27,7 +27,7 @@ jobs:
         uses: azure/powershell@v1
         with:
           inlineScript: |
-            Get-AzVm -Name "VBA*"
+            Get-AzVm ｜ Where-Objects {$_.Name -like "VBA*"}
           azPSVersion: '3.1.0'
 
       - name: Azure CLI script
