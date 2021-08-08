@@ -27,6 +27,5 @@ jobs:
         uses: azure/powershell@v1
         with:
           inlineScript: |
-            Set-AzConext 77f2419f-316b-4263-a550-2e9d3393713e
             Get-AzVM
           azPSVersion: '3.1.0'
