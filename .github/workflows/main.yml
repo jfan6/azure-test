@@ -27,11 +27,9 @@ jobs:
         uses: azure/powershell@v1
         with:
           inlineScript: |
-            $VbaVms = Get-AzVm -Name "VBA*"
+            $VbaVmsCsv = Get-AzVm -Name "VBA*" | ConvertTo-Csv -NoTypeInformation
+            $VbaVms = $VbaVmsCsv | ConvertFrom-Csv
           azPSVersion: '3.1.0'
-
-      - name: 'Output to Github Env'
-        run: echo "VBA_VMs=$$VbaVms" >> $GITHUB_ENV
 
       - name: 'Get Date'
         run: echo "REPORT_DATE=$(TZ=':Asia/Auckland' date '+%Y-%m-%d %T')" >> $GITHUB_ENV
