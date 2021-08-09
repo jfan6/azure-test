@@ -27,8 +27,27 @@ jobs:
         uses: azure/powershell@v1
         with:
           inlineScript: |
-            Get-AzVm -Name "VBA*"
+            $VbaVms = Get-AzVm -Name "VBA*"
           azPSVersion: '3.1.0'
+
+      - name: 'Output to Github Env'
+        run: echo "VBA_VMs=$$VbaVms" >> $GITHUB_ENV
+
+      - name: 'Get Date'
+        run: echo "REPORT_DATE=$(TZ=':Asia/Auckland' date '+%Y-%m-%d %T')" >> $GITHUB_ENV
+
+      - name: 'Send mail'
+        uses: dawidd6/action-send-mail@master
+        with:
+          server_address: smtp.163.com
+          server_port: 465
+          username: ${{secrets.MAIL_USERNAME}}
+          password: ${{secrets.MAIL_PASSWORD}}
+          subject: (${{env.REPORT_DATE}}) - LIC - Veeam VBA Status
+          body: (${{env.VBA_VMs}})
+          to: jacky.fan@kordia.co.nz
+          from: GitHub Actions
+          content_type: text/html
 
       - name: Azure CLI script
         uses: azure/CLI@v1
