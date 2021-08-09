@@ -44,7 +44,7 @@ jobs:
           username: ${{secrets.MAIL_USERNAME}}
           password: ${{secrets.MAIL_PASSWORD}}
           subject: (${{env.REPORT_DATE}}) - LIC - Veeam VBA Status
-          body: (${{env.VBA_VMs}})
+          body: $VbaVms
           to: jacky.fan@kordia.co.nz
           from: GitHub Actions
           content_type: text/html
