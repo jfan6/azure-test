@@ -27,8 +27,8 @@ jobs:
         uses: azure/powershell@v1
         with:
           inlineScript: |
-            $VbaVmsCsv = Get-AzVm -Name "VBA*" | ConvertTo-Csv -NoTypeInformation
-            $VbaVms = $VbaVmsCsv | ConvertFrom-Csv
+            $VbaVmsCsv = Get-AzVm -Name "lic*" | Select Name, Location, StatusCode | ConvertTo-Csv -NoTypeInformation
+            $VBA_VMS = $VbaVmsCsv | ConvertFrom-Csv >> $GITHUB_ENV
           azPSVersion: '3.1.0'
 
       - name: 'Get Date'
@@ -42,7 +42,7 @@ jobs:
           username: ${{secrets.MAIL_USERNAME}}
           password: ${{secrets.MAIL_PASSWORD}}
           subject: (${{env.REPORT_DATE}}) - LIC - Veeam VBA Status
-          body: $VbaVms
+          body: $VBA_VMS
           to: jacky.fan@kordia.co.nz
           from: GitHub Actions
           content_type: text/html
